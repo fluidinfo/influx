@@ -19,6 +19,9 @@ The data to be uploaded must be provided in the following JSON format:
                  {'id': <object-id>,
                   'values': [{<tag-path>: <tag-value>, ...},
                               ...]},
+                 {'query': <query-string>,
+                  'values': [{<tag-path>: <tag-value>, ...},
+                              ...]},
                  ...]
     }
 

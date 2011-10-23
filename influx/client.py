@@ -20,21 +20,23 @@ class FluidinfoImporter(object):
         """
         start, end = 0, min(len(objects), self._batchSize)
         if end:
-            while len(objects) >= start+end:
-                self._upload(objects[start:end])
-                start, end = end, min(len(objects), start + end)
-
-    def _upload(self, objects):
-        data = self._getValuesData(objects)
-        self._client.call('PUT', '/values', data)
+            while start < len(objects):
+                data = self._getValuesData(objects[start:end])
+                self._client.call('PUT', '/values', data)
+                start, end = end, min(len(objects), end + self._batchSize)
 
     def _getValuesData(self, objects):
+        """Convert the Influx object data format into the C{/values} format.
+
+        @param objects: The C{list} of objects to convert into the C{/values}
+            format.
+        @return: A C{dict} with object information that can be used to make a
+            C{/values} request.
+        """
         queries = []
         for objectData in objects:
             values = dict((key, {'value': value})
                           for key, value in objectData['values'].iteritems())
             queries.append(['fluiddb/about = "%s"' % objectData['about'],
                             values])
-        if queries:
-            return {'queries': queries}
-
+        return {'queries': queries}

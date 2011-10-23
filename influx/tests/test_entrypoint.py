@@ -14,7 +14,6 @@ class ParseOptionsTest(TestCase):
         A C{(options, args)} 2-tuple is returned when arguments have been
         parsed.
         """
-        options, args = parseOptions(['-t', '5', '-b', '7', 'path'])
-        self.assertEqual(5, options.threads)
+        options, args = parseOptions(['-b', '7', 'path'])
         self.assertEqual(7, options.batchSize)
         self.assertEqual(['path'], args)

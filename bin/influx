@@ -5,4 +5,5 @@ import sys
 from influx.entrypoint import main
 
 
-main(sys.argv)
+main(sys.argv[1:])
+

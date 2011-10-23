@@ -1,35 +1,40 @@
 """Upload logic for easy importing into Fluidinfo."""
 
-from json import load
 
+class FluidinfoImporter(object):
+    """Importer uploads data to Fluidinfo.
 
-class FluidinfoUploader(object):
-    """A client that can read and upload structured data to Fluidinfo."""
-
-    def uploadJSON(self, path):
-        """Upload JSON data to Fluidinfo.
-
-        @param path: The path to the file containing the data.
-        """
-        with open(path) as file:
-            data = load(file)
-        for batch in self._batchData(data):
-            self._upload(batch)
-
-    def _batchData(self, data):
-        pass
-
-    def _upload(self, data):
-        pass
-
-
-def splitObjects(data, batchSize=100):
-    """Generator splits a C{dict} with information about objects into batches.
-
-    @param data: A C{dict} with information about objects.
-    @param batchSize: Optionally, the maximum number of objects to include in
-        a batch.  Default is 100.
-    @return: Generator yields a C{dict}, per iteration.
+    @param client: The C{fluidinfo.py} instance to use to communicate with
+        Fluidinfo.
     """
-    return
-    yield
+
+    def __init__(self, client, batchSize):
+        self._client = client
+        self._batchSize = batchSize
+
+    def upload(self, objects):
+        """Upload data to Fluidinfo.
+
+        @param objects: A C{list} of C{dict}s representing tags and values,
+            organized as objects, to upload to Fluidinfo.
+        """
+        start, end = 0, min(len(objects), self._batchSize)
+        if end:
+            while len(objects) >= start+end:
+                self._upload(objects[start:end])
+                start, end = end, min(len(objects), start + end)
+
+    def _upload(self, objects):
+        data = self._getValuesData(objects)
+        self._client.call('PUT', '/values', data)
+
+    def _getValuesData(self, objects):
+        queries = []
+        for objectData in objects:
+            values = dict((key, {'value': value})
+                          for key, value in objectData['values'].iteritems())
+            queries.append(['fluiddb/about = "%s"' % objectData['about'],
+                            values])
+        if queries:
+            return {'queries': queries}
+

@@ -57,6 +57,12 @@ def parseOptions(args):
 
 
 def getFluidinfoClient(options):
+    """Configure and return a C{fluidinfo.py} client for use with Fluidinfo.
+
+    @param options: An C{optparse.Values} instance with options loaded from
+        the command-line.
+    @return: A ready-to-use C{fluidinfo.py} instance.
+    """
     fluidinfo.instance = options.endpoint
     fluidinfo.login(options.username, options.password)
     return fluidinfo

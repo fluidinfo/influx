@@ -48,3 +48,14 @@ class GetFluidinfoClientTest(TestCase):
         self.assertEqual('https://fluiddb.fluidinfo.com', client.instance)
         self.assertEqual('Basic dXNlcjpzZWNyZXQ=',
                          client.global_headers['Authorization'])
+
+    def testGetFluidinfoClientWithCustomSettings(self):
+        """
+        The API endpoint can be configured by passing a command-line argument.
+        """
+        options, args = parseOptions(['-u', 'user', '-p', 'secret',
+                                      '-e', 'http://localhost:9000', 'path'])
+        client = getFluidinfoClient(options)
+        self.assertEqual('http://localhost:9000', client.instance)
+        self.assertEqual('Basic dXNlcjpzZWNyZXQ=',
+                         client.global_headers['Authorization'])

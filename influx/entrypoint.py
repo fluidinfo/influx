@@ -52,7 +52,7 @@ def parseOptions(args):
     if not options.username:
         raise MissingUsernameError('You must provide a username (see -u).')
     if not options.password:
-        raise MissingPasswordError('You must provide a username (see -u).')
+        raise MissingPasswordError('You must provide a password (see -p).')
     return options, args
 
 

@@ -1,8 +1,8 @@
 from unittest import TestCase
 
 from influx.entrypoint import (
-    MissingPathError, MissingUsernameError, MissingPasswordError, parseOptions,
-    getFluidinfoClient)
+    MissingPathError, MissingPasswordError, MissingUsernameError,
+    getFluidinfoClient, parseOptions)
 
 
 class ParseOptionsTest(TestCase):

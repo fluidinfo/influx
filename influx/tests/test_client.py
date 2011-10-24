@@ -25,6 +25,18 @@ class FluidinfoImporterTest(TestCase):
                              {'foo/bar': {'value': 13}}]]}
         self.assertEqual([(('PUT', '/values', body), {})], fluidinfo.calls)
 
+    def testUploadEscapesDoubleQuotesInAboutValues(self):
+        """
+        Double quotes in about tag values are correctly escaped when converted
+        to Fluidinfo queries.
+        """
+        fluidinfo = FakeFluidinfo()
+        client = FluidinfoImporter(fluidinfo, 5)
+        client.upload([{'about': '"hello world"', 'values': {'foo/bar': 13}}])
+        body = {'queries': [[r'fluiddb/about = "\"hello world\""',
+                             {'foo/bar': {'value': 13}}]]}
+        self.assertEqual([(('PUT', '/values', body), {})], fluidinfo.calls)
+
     def testUploadLimitsByBatchSize(self):
         """
         Object data is split into batches, to control the number of objects

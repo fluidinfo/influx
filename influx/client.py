@@ -37,6 +37,7 @@ class FluidinfoImporter(object):
         for objectData in objects:
             values = dict((key, {'value': value})
                           for key, value in objectData['values'].iteritems())
-            queries.append(['fluiddb/about = "%s"' % objectData['about'],
+            aboutValue = objectData['about'].replace('"', r'\"')
+            queries.append(['fluiddb/about = "%s"' % aboutValue,
                             values])
         return {'queries': queries}

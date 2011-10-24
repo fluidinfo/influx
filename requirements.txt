@@ -1,2 +1,3 @@
-Fom
+fluidinfo.py
 Twisted
+httplib2

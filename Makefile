@@ -1,8 +1,3 @@
-build:
-	virtualenv --no-site-packages env
-	. env/bin/activate
-	pip install -r requirements.txt
-
 clean:
 	find . -name '*~' -o -name '*.pyc' -print0 | xargs -0 -r rm
 

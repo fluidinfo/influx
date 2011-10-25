@@ -17,9 +17,11 @@ Installation
 
 Create a virtualenv and install the requirements:
 
-  virtualenv --no-site-packages env
-  . env/bin/activate
-  pip install -r requirements.txt
+    virtualenv --no-site-packages env
+    . env/bin/activate
+    pip install -r requirements.txt
+
+You can do the same thing by running `make build`.
 
 
 Data format

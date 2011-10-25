@@ -27,12 +27,10 @@ Data format
 
 The data to be uploaded must be provided in the following JSON format:
 
-    ```json
     {'objects': [{'about': <about-tag-value>,
                   'values': {<tag-path>: <tag-value>, ...}},
                  ...]
     }
-    ```
 
 This data will be loaded into memory, so it's important to make sure
 the JSON data structure doesn't get too big.  For very large datasets,
@@ -41,7 +39,6 @@ example contains two objects that represent the Anarchism and Autism
 pages in Wikipedia.  Each object has an about tag and a single
 `en.wikipedia.org/url` tag value:
 
-    ```json
     {"objects": [
         {"about": "anarchism",
          "values": {
@@ -50,7 +47,6 @@ pages in Wikipedia.  Each object has an about tag and a single
          "values": {
              "en.wikipedia.org/url": "http://en.wikipedia.org/wiki/Autism"}}]
     }
-    ```
 
 
 Uploading data

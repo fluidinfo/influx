@@ -1,3 +1,3 @@
 fluidinfo.py
-Twisted
+Twisted == 12.0
 httplib2 == 0.6.0

@@ -89,3 +89,12 @@ datasets, but you might get better performance with a different value.
 You can specify the batch size on the command-line:
 
     bin/influx -u username -p password -b 75 data.json
+
+
+Debugging
+---------
+
+When you need to debug an issue you can use `-v` to enable verbose
+mode which writes details out about requests as they happen:
+
+    bin/influx -u username -p password -v data.json

@@ -1,5 +1,6 @@
 """Entry point for the Influx import tool."""
 
+import httplib2
 from json import load
 import logging
 from optparse import OptionParser
@@ -63,6 +64,8 @@ def getFluidinfoClient(options):
         the command-line.
     @return: A ready-to-use C{fluidinfo.py} instance.
     """
+    if options.verbose:
+        httplib2.debuglevel = 1
     fluidinfo.instance = options.endpoint
     fluidinfo.login(options.username, options.password)
     return fluidinfo
@@ -88,4 +91,6 @@ def getOptionParser():
     parser.add_option('-p', dest='password', metavar='PASSWORD',
                       help='The Fluidinfo password to use when making API '
                            'calls')
+    parser.add_option('-v', dest='verbose', action='store_true', default=False,
+                      help='Run in verbose mode')
     return parser

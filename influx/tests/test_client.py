@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from influx.client import FluidinfoImporter
-from influx.tests.doubles import FakeFluidinfo
+from influx.tests.doubles import FakeFluidinfo, FakeResponse
 
 
 class FluidinfoImporterTest(TestCase):
@@ -86,3 +86,16 @@ class FluidinfoImporterTest(TestCase):
                               {'foo/bar': {'value': 67}}]]}
         self.assertEqual([(('PUT', '/values', body1), {}),
                           (('PUT', '/values', body2), {})], fluidinfo.calls)
+
+    def testUploadWithRequestFailure(self):
+        """A C{RuntimeError} is raised if a request is not successful."""
+        fluidinfo = FakeFluidinfo(
+            responses=[(FakeResponse(status=404), "User foo doesn't exist")])
+        client = FluidinfoImporter(fluidinfo, 5)
+        self.assertRaises(RuntimeError, client.upload,
+                          [{'about': 'hello world',
+                            'values': {'foo/bar': 13}}])
+        body = {'queries': [['fluiddb/about = "hello world"',
+                             {'foo/bar': {'value': 13}}]]}
+        self.assertEqual([(('PUT', '/values', body), {})], fluidinfo.calls)
+

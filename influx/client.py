@@ -17,12 +17,16 @@ class FluidinfoImporter(object):
 
         @param objects: A C{list} of C{dict}s representing tags and values,
             organized as objects, to upload to Fluidinfo.
+        @raises RuntimeError: Raised if a request is not successful.
         """
         start, end = 0, min(len(objects), self._batchSize)
         if end:
             while start < len(objects):
                 data = self._getValuesData(objects[start:end])
-                self._client.call('PUT', '/values', data)
+                response, content = self._client.call('PUT', '/values', data)
+                if response.status >= 300:
+                    raise RuntimeError('Got status %d with content: %s'
+                                       % (response.status, content))
                 start, end = end, min(len(objects), end + self._batchSize)
 
     def _getValuesData(self, objects):

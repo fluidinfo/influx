@@ -83,9 +83,18 @@ for example:
 Customizing the batch size
 --------------------------
 
-When Influx loads the data from the JSON files you specify it splits
-uploads them in batches.  The default is a good choice for most
-datasets, but you might get better performance with a different value.
-You can specify the batch size on the command-line:
+When Influx loads the data from the JSON files you specify it uploads
+them in batches.  The default is a good choice for most datasets, but
+you might get better performance with a different value.  You can
+specify the batch size on the command-line:
 
     bin/influx -u username -p password -b 75 data.json
+
+
+Debugging
+---------
+
+When you need to debug an issue you can use `-v` to enable verbose
+mode which writes details out about requests as they happen:
+
+    bin/influx -u username -p password -v data.json
